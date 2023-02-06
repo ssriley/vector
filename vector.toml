@@ -40,6 +40,9 @@ encoding.codec = "json"
 auth.strategy = "bearer"
 auth.token = "${LOGTAIL_TOKEN}"
 
+[sinks.logtail_http_sink.tls]
+verify_certificate = false
+
 [sinks.console]
 inputs = ["logtail_transform"]
 target = "stdout"
