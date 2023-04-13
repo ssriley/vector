@@ -29,6 +29,7 @@ tls.crt_file = "/tmp/cert.pem"
 tls.key_file = "/tmp/key.pem"
 tls.enabled = true
 tls.verify_certificate = false
+tls.verify_hostname = false
 
 [transforms.logtail_transform_bd]
 type = "remap"
