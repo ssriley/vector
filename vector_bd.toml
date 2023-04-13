@@ -1,0 +1,58 @@
+#                                    __   __  __
+#                                    \ \ / / / /
+#                                     \ V / / /
+#                                      \_/  \/
+#
+#                                    V E C T O R
+#                                   Configuration
+#
+# ------------------------------------------------------------------------------
+# Website: https://vector.dev
+# Docs: https://vector.dev/docs
+# Chat: https://chat.vector.dev
+# ------------------------------------------------------------------------------
+
+# Change this to use a non-default directory for Vector data storage:
+# data_dir = "/var/lib/vector"
+
+#Random Syslog-formatted logs
+#[sources.dummy_logs]
+#type = "demo_logs"
+#format = "syslog"
+#interval = 1
+
+[sources.bd]
+type = "splunk_hec"
+address = "0.0.0.0:8088"
+valid_tokens = [ "${SP_TOKEN}"]
+tls.crt_file = "/etc/cert.pem"
+tls.key_file = "/etc/key.pem"
+tls.enabled = true
+tls.verify_certificate = false
+
+[transforms.logtail_transform]
+type = "remap"
+inputs = [ "bd" ]
+source = '''
+.dt = del(.timestamp)
+'''
+
+[sinks.logtail_http_sink]
+type = "http"
+inputs = [ "logtail_transform" ]
+uri = "https://in.logtail.com/"
+encoding.codec = "json"
+auth.strategy = "bearer"
+auth.token = "${LOGTAIL_TOKEN}"
+
+[sinks.logtail_http_sink.tls]
+verify_certificate = false
+
+
+# Print parsed logs to stdout
+[sinks.print]
+type = "console"
+inputs = ["logtail_transform"]
+target = "stdout"
+encoding.codec = "json"
+
