@@ -25,8 +25,8 @@
 type = "splunk_hec"
 address = "0.0.0.0:8088"
 valid_tokens = [ "${SP_TOKEN}"]
-tls.crt_file = "/etc/cert.pem"
-tls.key_file = "/etc/key.pem"
+tls.crt_file = "/tmp/cert.pem"
+tls.key_file = "/tmp/key.pem"
 tls.enabled = true
 tls.verify_certificate = false
 
