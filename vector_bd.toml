@@ -30,29 +30,29 @@ tls.key_file = "/etc/key.pem"
 tls.enabled = true
 tls.verify_certificate = false
 
-[transforms.logtail_transform]
+[transforms.logtail_transform_bd]
 type = "remap"
 inputs = [ "bd" ]
 source = '''
 .dt = del(.timestamp)
 '''
 
-[sinks.logtail_http_sink]
+[sinks.logtail_http_sink_bd]
 type = "http"
-inputs = [ "logtail_transform" ]
+inputs = [ "logtail_transform_bd" ]
 uri = "https://in.logtail.com/"
 encoding.codec = "json"
 auth.strategy = "bearer"
 auth.token = "${LOGTAIL_TOKEN}"
 
-[sinks.logtail_http_sink.tls]
+[sinks.logtail_http_sink_bd.tls]
 verify_certificate = false
 
 
 # Print parsed logs to stdout
-[sinks.print]
+[sinks.print_bd]
 type = "console"
-inputs = ["logtail_transform"]
+inputs = ["logtail_transform_bd"]
 target = "stdout"
 encoding.codec = "json"
 
