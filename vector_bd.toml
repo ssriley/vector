@@ -25,11 +25,13 @@
 type = "splunk_hec"
 address = "0.0.0.0:8088"
 valid_tokens = [ "${SP_TOKEN}"]
-tls.crt_file = "/tmp/cert.pem"
-tls.key_file = "/tmp/key.pem"
+tls.crt_file = "/tmp/server.crt"
+tls.key_file = "/tmp/server.key"
+tls.ca_file = "/tmp/rootCA.pem"
 tls.enabled = true
 tls.verify_certificate = false
 tls.verify_hostname = false
+
 
 [transforms.logtail_transform_bd]
 type = "remap"
